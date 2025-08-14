@@ -1,0 +1,28 @@
+{
+  "accounts": [
+    {
+      "username": "username",
+      "instance": "https://example.com"
+    }
+  ],
+
+  "prefs": {
+    "user_dir": "./user",
+    "save_json": 1,
+
+    "fetch_reblogs": 1,
+    "fetch_favourites": 1,
+    "fetch_bookmarks": 1,
+    "fetch_mentions": 1,
+    "fetch_linked_posts": 1,
+    "fetch_reply_parents": 1,
+
+    "download_own_attachments": 1,
+    "download_others_attachments": 1,
+
+    "fetch_limit": 25,
+    "recursion_limit": 100,
+    "log_level": "info",
+    "log_history_limit": 1000
+  }
+}
