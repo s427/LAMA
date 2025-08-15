@@ -22,6 +22,10 @@ After an initial run where the script will download everything it can from the c
 
 ⚠️ _As of now, all the script does is fetch and store the data._ There is no interface to view it or manipulate it. This might come at a later date, bur for now, at least the data is saved. :) You can use any tool compatible with SQLite to explore it and run any query you want.
 
+> 📢 The announcement posts, should you want to help spread the word:  
+> In English: https://lou.lt/@s427/115033828181344046  
+> In French: https://lou.lt/@s427/115033826235638224
+
 
 ## 🙋‍♂️ _"But you can just download your archive as a ZIP file!"_
 
