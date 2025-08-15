@@ -227,7 +227,7 @@ Run the same command, this time without the `-it` and `init` parameters:
 
 This will fetch every _new_ posts since the previous run. If this is the first run, then all posts will be fetched.
 
-🕑 Note that the image is set to the __UTC timezone__. If you want to use a specific timezone, you can set it with the `-e TZ` parameter:  
+🕑 Note that the image is set to the __UTC timezone__. This affects: the date/time shown in the logs, and the date/time for the `fetched_at` and `archived_at` columns in the database. If you want to use a specific timezone, you can set it with the `-e TZ` parameter:  
 `docker run --rm -e TZ=Europe/Zurich -v /path/to/my/user_dir:/usr/src/app/user lama`  
 For a complete list of the possible values, check [this Wikipedia page](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
 
