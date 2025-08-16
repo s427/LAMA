@@ -52,9 +52,22 @@ def get_instance(uri, safe=False):
 def get_handle(uri, safe=False):
     """Returns full author handle (username@domain.tld) from URI
 
-    Input: https://domain.tld/users/username or https://domain.tld/@username
+    Input: https://domain.tld/users/username (uri) or https://domain.tld/@username (url)
     Output: username@domain.tld, or username_domaintld (if safe)
+
+    Note: for accounts on bsky.brid.gy (Bluesky Bridge, https://fed.brid.gy/),
+    'url' is better suited than 'uri'. Example:
+
+    "url": "https://bsky.brid.gy/r/https://bsky.app/profile/username",
+    "uri": "https://bsky.brid.gy/ap/did:plc:twpze4qqf6gtxz43ct52wlnl",
     """
+
+    # special treatment for posts imported from Bluesky Bridge
+    if 'brid.gy' in uri and uri.count('https://') > 1:
+        bsky_parts = uri.split('https://')
+        # ["bsky.brid.gy/r/", "bsky.app/profile/username"]
+        if len(bsky_parts) > 1 and 'profile' in bsky_parts[1]:
+            uri = f"https://{bsky_parts[1].replace('/profile/', '/users/')}"
 
     username = get_username(uri, safe)
     instance = get_instance(uri, safe)

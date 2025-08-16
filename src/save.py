@@ -26,7 +26,7 @@ def save_to_json (account, data, activity_type):
     id = data.id
     created_year = data.created_at.year
     created_month = data.created_at.strftime("%m")
-    author = utils.get_handle(data.account.uri, True)
+    author = utils.get_handle(data.account.url, True)
 
     if '.parent' in activity_type:
         activity_type = 'parent'
@@ -44,7 +44,7 @@ def save_to_json (account, data, activity_type):
 
 def save_attachments(account, status):
 
-    if utils.post_is_mine(account, status.account.uri):
+    if utils.post_is_mine(account, status.account.url):
         if not PREFS['download_own_attachments']:
             return []
 

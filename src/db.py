@@ -117,7 +117,7 @@ def save_status(account, data, activity_type):
 
     if save_post:
         post_id =      status.id
-        author =       utils.get_handle(status.account.uri)
+        author =       utils.get_handle(status.account.url)
         visibility =   status.get('visibility', None)
         content =      utils.strip_html(status.get('content', ''))
         hashtags =     utils.extract_tags(status.get('tags', []))
