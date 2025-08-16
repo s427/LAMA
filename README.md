@@ -455,3 +455,11 @@ You can reach me via github or on Mastodon:
 Github: https://github.com/s427  
 Mastodon: https://lou.lt/@s427
 
+# Version history
+
+- v1.0.1
+  - fix: author name for posts coming from Bluesky Bridge (bsky.brid)
+  - safeguard: if fetch_reblogs is disabled but the post has attachments or poll options, we save the post anyway (but not the reblog)
+- v1.0
+  - initial release
+

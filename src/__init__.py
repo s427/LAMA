@@ -1,5 +1,5 @@
 __APP_NAME__ = "LAMA"
-__VERSION__ = "1.0"
+__VERSION__ = "1.0.1"
 __WEBSITE__ = "https://github.com/s427/LAMA"
 
 import src.config
