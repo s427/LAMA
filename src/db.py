@@ -137,7 +137,7 @@ def save_status(account, data, activity_type):
                 save.save_fetched_status(account, status.reblog, 'reblog')
             else:
                 # we do not want to save reblogs...
-                if content:
+                if content or attachments or poll_options:
                     # ...but the post has some content of its own. Maybe a quote-post?
                     # therefore we still save the post itself
                     # (but not status.reblog as a distinct post)
