@@ -86,6 +86,16 @@ def fetch_posts(account, activity_type='posts'):
             log.err(f"fetch_posts ({activity_type}) - ERROR: {e}", True)
             return
 
+    elif activity_type == 'poll':
+        try:
+            start_from = db.get_last_fetched_id(account, activity_type)
+            start_from = 0 if start_from is None else start_from
+            log.info(f"  start_from: {start_from}")
+            statuses = api.notifications(limit=PREFS['fetch_limit'], types=['poll'], min_id=start_from)
+        except MastodonError as e:
+            log.err(f"fetch_posts ({activity_type}) - ERROR: {e}", True)
+            return
+
     elif activity_type == 'bookmark':
         try:
             start_from = db.get_app_state(account['handle'], 'bookmarks_pagination_prev')
@@ -118,7 +128,7 @@ def fetch_posts(account, activity_type='posts'):
             return
 
     count = 0
-    mentions_no_content = 0
+    notifications_no_content = 0
     for i in __import__('itertools').count():
         log.info(f"LOOP {i}")
         api_limit(account)
@@ -126,14 +136,14 @@ def fetch_posts(account, activity_type='posts'):
         if not statuses:
             break
 
-        parse_statuses = reversed(statuses) if activity_type in {'post', 'mention'} else statuses
+        parse_statuses = reversed(statuses) if activity_type in {'post', 'mention', 'poll'} else statuses
 
         for status in parse_statuses:
-            if activity_type == 'mention' and not status.status:
-                mention_author = utils.get_handle(status.account.url) if status.account and status.account.url else '[unknown author]'
-                log.warn(f"  Mention {status.id} by {mention_author} has no content (expired from instance cache?); skipping.")
+            if activity_type in {'mention', 'poll'} and not status.status:
+                notification_author = utils.get_handle(status.account.url) if status.account and status.account.url else '[unknown author]'
+                log.warn(f"  Post {status.id} ({activity_type}) by {notification_author} has no content (expired from instance cache?); skipping.")
                 log.debug(f"  Full JSON: {utils.to_json(status.__dict__)}")
-                mentions_no_content += 1
+                notifications_no_content += 1
                 continue
 
             save.save_fetched_status(account, status, activity_type)
@@ -154,9 +164,9 @@ def fetch_posts(account, activity_type='posts'):
         log.info(f'  pagination_prev: {pagination_prev}')
         db.save_app_state(account['handle'], 'favourites_pagination_prev', pagination_prev)
 
-    msg_mentions = f"\n  {mentions_no_content} mention{'s were' if mentions_no_content > 1 else ' was'} skipped (no content)." if mentions_no_content else ''
+    msg_notifications = f"\n  {notifications_no_content} notifications{'s were' if notifications_no_content > 1 else ' was'} (mentions or polls) skipped (no content)." if notifications_no_content else ''
 
-    log.info(f"Done. {count} {activity_type}{'s' if count > 1 else ''} fetched.{msg_mentions}\n", True)
+    log.info(f"Done. {count} {activity_type}{'s' if count > 1 else ''} fetched.{msg_notifications}\n", True)
 
 
 def fetch_all():
@@ -180,6 +190,8 @@ def fetch_all():
             fetch_posts(account, 'bookmark')
         if PREFS['fetch_mentions']:
             fetch_posts(account, 'mention')
+        if PREFS['fetch_polls']:
+            fetch_posts(account, 'poll')
 
     print("")
     log.info("✅ End of script \\o/\n", True)

@@ -15,6 +15,7 @@ DEFAULT_PREFS = {
     "fetch_favourites": 1,
     "fetch_bookmarks": 1,
     "fetch_mentions": 1,
+    "fetch_polls": 1,
     "fetch_linked_posts": 1,
     "fetch_reply_parents": 1,
 

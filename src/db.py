@@ -86,10 +86,10 @@ def init_db():
 def save_status(account, data, activity_type):
     """Save one post to the database
 
-    Note: if activity_type == mention, the structure is different
+    Note: if activity_type == mention or poll, the structure is different
     """
 
-    if activity_type == 'mention':
+    if activity_type in {'mention', 'poll'}:
         status = data.status
     else:
         status = data
@@ -178,7 +178,7 @@ def save_status(account, data, activity_type):
         con.commit()
 
     if save_activity:
-        activity_id = data.id if activity_type == 'mention' else status.id
+        activity_id = data.id if activity_type in {'mention', 'poll'} else status.id
 
         activity_data = {
             'account': account['handle'],
