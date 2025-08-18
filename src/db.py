@@ -102,16 +102,17 @@ def save_status(account, data, activity_type):
 
     saved_activity = get_unique_activity(account, post_uri, activity_type)
     if saved_activity:
+        log.info(f"🟰 Activity {activity_type} by {account.handle} for {post_uri}is already present in database with the same 'edited_at value; skipping.'")
         save_activity = False
 
     saved_post = get_post_last_edited(post_uri)
     if saved_post:
         db_edited_at, = saved_post
         if db_edited_at == status.edited_at:
-            log.info(f"Post {post_uri} ({activity_type}) already present in database with the same 'edited_at value; skipping.'")
+            log.info(f"🟰 Post {post_uri} ({activity_type}) already present in database with the same 'edited_at value; skipping.'")
             save_post = False
         else:
-            log.warn(f"Post {post_uri} ({activity_type}) already present in database, with different 'edited_at' values (this post: {status.edited_at}; db post: {db_edited_at}); we proceed and update the data.")
+            log.warn(f"🆕 Post {post_uri} ({activity_type}) already present in database, with different 'edited_at' values (this post: {status.edited_at}; db post: {db_edited_at}); we proceed and update the data.")
 
     (con, cur) = open_con()
 
@@ -179,6 +180,8 @@ def save_status(account, data, activity_type):
 
     if save_activity:
         activity_id = data.id if activity_type in {'mention', 'poll'} else status.id
+
+        log.debug(f"Saving activity {activity_id}: {activity_type} by {account.handle} for {post_uri}")
 
         activity_data = {
             'account': account['handle'],

@@ -128,7 +128,7 @@ def fetch_posts(account, activity_type='posts'):
             return
 
     count = 0
-    notifications_no_content = 0
+    no_content = 0
     for i in __import__('itertools').count():
         log.info(f"LOOP {i}")
         api_limit(account)
@@ -143,7 +143,7 @@ def fetch_posts(account, activity_type='posts'):
                 notification_author = utils.get_handle(status.account.url) if status.account and status.account.url else '[unknown author]'
                 log.warn(f"  Post {status.id} ({activity_type}) by {notification_author} has no content (expired from instance cache?); skipping.")
                 log.debug(f"  Full JSON: {utils.to_json(status.__dict__)}")
-                notifications_no_content += 1
+                no_content += 1
                 continue
 
             save.save_fetched_status(account, status, activity_type)
@@ -164,9 +164,9 @@ def fetch_posts(account, activity_type='posts'):
         log.info(f'  pagination_prev: {pagination_prev}')
         db.save_app_state(account['handle'], 'favourites_pagination_prev', pagination_prev)
 
-    msg_notifications = f"\n  {notifications_no_content} notifications{'s were' if notifications_no_content > 1 else ' was'} (mentions or polls) skipped (no content)." if notifications_no_content else ''
+    msg_no_content = f"\n  {no_content} {activity_type}{'s were' if no_content > 1 else ' was'} skipped (no content)." if no_content else ''
 
-    log.info(f"Done. {count} {activity_type}{'s' if count > 1 else ''} fetched.{msg_notifications}\n", True)
+    log.info(f"Done. {count} {activity_type}{'s' if count > 1 else ''} fetched.{msg_no_content}\n", True)
 
 
 def fetch_all():
