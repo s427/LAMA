@@ -4,6 +4,7 @@ from mastodon import Mastodon
 import src.db as db
 
 from . import __APP_NAME__
+from . import __VERSION__
 from . import __WEBSITE__
 from . import ACCOUNTS
 from . import PREFS
@@ -59,6 +60,10 @@ def authorize_app(account):
 
 
 def main():
+    nb = len(ACCOUNTS)
+    print(f"\n⚙️ running {__APP_NAME__} v.{__VERSION__}, init mode\n")
+    print(f"Initialiazing app with {nb} account{'s' if nb > 1 else ''}.")
+
     check_folders()
     db.init_db()
 

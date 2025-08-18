@@ -7,6 +7,8 @@ import src.save as save
 import src.utils as utils
 
 from . import __APP_NAME__
+from . import __VERSION__
+from . import ACCOUNTS
 from . import PREFS
 
 
@@ -157,13 +159,28 @@ def fetch_posts(account, activity_type='posts'):
     log.info(f"Done. {count} {activity_type}{'s' if count > 1 else ''} fetched.{msg_mentions}\n", True)
 
 
-def fetch_all(account):
-    fetch_posts(account)
+def fetch_all():
+    print("")
+    nb = len(ACCOUNTS)
+    log.info(f"Starting {__APP_NAME__} v.{__VERSION__} ---- {nb} account{'(s)' if nb > 1 else ''} configured", True)
 
-    if PREFS['fetch_favourites']:
-        fetch_posts(account, 'favourite')
-    if PREFS['fetch_bookmarks']:
-        fetch_posts(account, 'bookmark')
-    if PREFS['fetch_mentions']:
-        fetch_posts(account, 'mention')
+    for account in ACCOUNTS:
+        print("")
+        log.info(f"ACCOUNT: {account['text']}\n", True)
+
+        if not validate_username(account):
+            log.err("❌ Mismatch between configured username and authenticated username. Skipping this account.", True)
+            continue
+
+        fetch_posts(account)
+
+        if PREFS['fetch_favourites']:
+            fetch_posts(account, 'favourite')
+        if PREFS['fetch_bookmarks']:
+            fetch_posts(account, 'bookmark')
+        if PREFS['fetch_mentions']:
+            fetch_posts(account, 'mention')
+
+    print("")
+    log.info("✅ End of script \\o/\n", True)
 
