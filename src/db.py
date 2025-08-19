@@ -102,7 +102,7 @@ def save_status(account, data, activity_type):
 
     saved_activity = get_unique_activity(account, post_uri, activity_type)
     if saved_activity:
-        log.info(f"🟰 Activity {activity_type} by {account.handle} for {post_uri}is already present in database with the same 'edited_at value; skipping.'")
+        log.info(f"🟰 Activity {activity_type} by {account['handle']} for {post_uri}is already present in database with the same 'edited_at value; skipping.'")
         save_activity = False
 
     saved_post = get_post_last_edited(post_uri)
@@ -181,7 +181,7 @@ def save_status(account, data, activity_type):
     if save_activity:
         activity_id = data.id if activity_type in {'mention', 'poll'} else status.id
 
-        log.debug(f"Saving activity {activity_id}: {activity_type} by {account.handle} for {post_uri}")
+        log.debug(f"Saving activity {activity_id}: {activity_type} by {account['handle']} for {post_uri}")
 
         activity_data = {
             'account': account['handle'],
