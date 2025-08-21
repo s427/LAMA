@@ -89,6 +89,13 @@ def save_status(account, data, activity_type):
     Note: if activity_type == mention or poll, the structure is different
     """
 
+    log.info(f"db.save_status {data['id']} ({activity_type}) for {account['text']}")
+    log.debug(f"  {utils.to_json(data.__dict__)}")
+
+    if PREFS['save_json'] and activity_type != 'reblog':
+        save.save_to_json(account, data, activity_type)
+
+
     if activity_type in {'mention', 'poll'}:
         status = data.status
     else:
@@ -135,7 +142,7 @@ def save_status(account, data, activity_type):
 
             if PREFS['fetch_reblogs']:
                 # we also save its embedded content as a distinct post
-                save.save_fetched_status(account, status.reblog, 'reblog')
+                save_status(account, status.reblog, 'reblog')
             else:
                 # we do not want to save reblogs...
                 if content or attachments or poll_options:

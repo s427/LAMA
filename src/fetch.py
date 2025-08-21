@@ -53,7 +53,7 @@ def fetch_post_from_id(account, post_id, activity_type):
         return
 
     log.debug(status)
-    save.save_fetched_status(account, status, activity_type)
+    db.save_status(account, status, activity_type)
 
 
 def fetch_post_by_url(account, post_url, activity_type):
@@ -68,7 +68,7 @@ def fetch_post_by_url(account, post_url, activity_type):
         return
 
     if result.statuses:
-        save.save_fetched_status(account, result.statuses[0], activity_type)
+        db.save_status(account, result.statuses[0], activity_type)
 
 
 def fetch_posts(account, activity_type='posts'):
@@ -146,7 +146,7 @@ def fetch_posts(account, activity_type='posts'):
                 no_content += 1
                 continue
 
-            save.save_fetched_status(account, status, activity_type)
+            db.save_status(account, status, activity_type)
             count += 1
 
         log.debug(f"=> api.fetch_previous ({i})")

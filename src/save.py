@@ -1,23 +1,10 @@
 import os
 import urllib.request
 
-import src.db as db
 import src.log as log
 import src.utils as utils
 
 from . import PREFS
-
-
-def save_fetched_status(account, data, activity_type):
-    log.info(f"save_fetched_data {data['id']} ({activity_type}) for {account['text']}")
-    log.debug(f"  {utils.to_json(data.__dict__)}")
-
-    # a reblog is simply a subset of an already saved post (post['reblog']),
-    # so we avoid saving it again
-    if PREFS['save_json'] and activity_type != 'reblog':
-        save_to_json(account, data, activity_type)
-
-    db.save_status(account, data, activity_type)
 
 
 def save_to_json (account, data, activity_type):
