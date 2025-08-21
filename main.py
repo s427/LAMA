@@ -5,6 +5,8 @@ import src.log as log
 
 
 def main():
+    log.purge_logs()
+
     args = sys.argv[1:]
     if args and args[0] == 'init':
         init.main()
@@ -14,6 +16,5 @@ def main():
 
 
 if __name__ == "__main__":
-    log.purge_logs()
     main()
 
