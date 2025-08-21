@@ -442,6 +442,7 @@ Finally, you can log in to your Mastodon account on the web, and visit "Preferen
 (In no particular order)
 
 - mastodon-archive: https://github.com/kensanata/mastodon-archive
+- mastodon-to-sqlite: https://github.com/myles/mastodon-to-sqlite
 - mastodoner: https://github.com/harisbinzia/mastodoner
 - masto-archive: https://github.com/colorchestra/masto-archive
 
@@ -457,6 +458,9 @@ Mastodon: https://lou.lt/@s427
 
 # Version history
 
+- v1.1.0
+  - new option: `fetch_polls` (0 or 1) if you want LAMA to fetch the posts containing polls you have taken part of. Note that this only becomes available once the poll has ended, so don't expect ongoing polls to appear in the database.
+  - misc minor fixes and improvements
 - v1.0.1
   - fix: author name for posts coming from Bluesky Bridge (bsky.brid)
   - safeguard: if fetch_reblogs is disabled but the post has attachments or poll options, we save the post anyway (but not the reblog)
