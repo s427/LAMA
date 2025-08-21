@@ -7,6 +7,7 @@ Optionally, it can also fetch:
 - your favourites
 - your bookmarks
 - your mentions
+- the polls you took part of
 - posts that are linked to inside one of the above post
 - posts you reply to (ie. the parent(s) in a conversation)
 
@@ -280,6 +281,12 @@ __"fetch_mentions"__
 
 Whether or not to fetch mentions (from your notification) and save the corresponding posts.  
 Note: after a while, mentions don't have any content any more (probably due to the corresponding post being removed from the instance cache) and therefore LAMA will not save them. A message will be written in the log if this happens.
+
+__"fetch_polls"__
+> Boolean (0 or 1); default value: 1
+
+Whether or not to fetch the posts containing polls the configured account have taken part of.  
+Note: this information only becomes available once the poll has ended, so don't expect ongoing polls to appear in the database.
 
 __"fetch_linked_posts"__
 > Boolean (0 or 1); default value: 1
