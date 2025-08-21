@@ -102,6 +102,11 @@ def is_link_mastodon_post(url):
 
 
 def strip_html(html):
+    html = html.replace("<br>", "\n")
+    html = html.replace("<br/>", "\n")
+    html = html.replace("<br />", "\n")
+    html = html.replace("</p><p>", "\n\n")
+
     soup = BeautifulSoup(html, 'html.parser')
     return soup.get_text()
 
