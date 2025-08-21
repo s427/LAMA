@@ -194,5 +194,5 @@ def fetch_all():
             fetch_posts(account, 'poll')
 
     print("")
-    log.info("✅ End of script \\o/\n", True)
+    log.info("✅ End of script\n", True)
 
